@@ -1,1 +1,13 @@
 @import 'tailwindcss';
+
+:root {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-feature-settings:
+    'liga' 1,
+    'calt' 1; /* fix for Chrome */
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
