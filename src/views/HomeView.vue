@@ -1,13 +1,21 @@
+<!-- src/views/PostPage.vue -->
 <script setup lang="ts">
-import TypeIt from 'typeit'
 import { onMounted, ref } from 'vue'
-import { marked } from 'marked'
+import TypeIt from 'typeit'
 
+import MarkdownIt from 'markdown-it'
+import markdownItHighlightjs from 'markdown-it-highlightjs'
+import markdownItClass from 'markdown-it-class'
+import markdownStyle from '@/markdown_style'
+
+// Markdown 渲染区域
 const type_it_element = ref<HTMLElement | null>(null)
-const marked_element = ref<HTMLElement | null>(null)
+const markdown_it_element = ref<string>('')
+const loading = ref<boolean>(true)
 const website_title = import.meta.env.VITE_WEBSITE_TITLE
 
 onMounted(() => {
+  // 打字效果
   if (type_it_element.value) {
     new TypeIt(type_it_element.value, {
       strings: [`Welcome to ${website_title}`],
@@ -17,18 +25,34 @@ onMounted(() => {
     }).go()
   }
 
-  if (marked_element.value) {
-    marked_element.value.innerHTML = marked
-      .parse(`# ${website_title}\n\nThis is a *simple* **markdown** rendering example.`)
-      .toString()
-  }
+  fetch(`${import.meta.env.VITE_API_URL}/`)
+    .then((res) => res.json())
+    .then((data) => {
+      const md = new MarkdownIt({
+        html: true,
+        linkify: true,
+        typographer: true,
+      })
+        .use(markdownItHighlightjs)
+        .use(markdownItClass, markdownStyle)
+
+      const html = md.render(data)
+      markdown_it_element.value = html
+      loading.value = false
+    })
+    .catch((err) => {
+      console.error('Error:', err)
+      markdown_it_element.value = 'Error loading post.'
+      loading.value = false
+    })
 })
 </script>
 
 <template>
   <main>
+    <!-- 顶部欢迎区 -->
     <div
-      class="bg-gray-200 dark:bg-gray-800 dark:text-white w-full text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background"
+      class="bg-gray-200 dark:bg-gray-800 dark:text-white text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background"
     >
       <div class="backdrop-blur-sm p-20">
         <p class="text-6xl m-auto w-full opacity-0 animate-fade-in" ref="type_it_element"></p>
@@ -36,11 +60,26 @@ onMounted(() => {
       </div>
     </div>
 
-    <div ref="marked_element" class="mx-20 my-10"></div>
+    <!-- 加载中 -->
+    <div v-if="loading" class="flex items-center gap-2 justify-center py-10">
+      <span class="font-serif text-lg">Loading</span>
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>
+
+    <!-- Markdown内容 -->
+    <transition name="fade">
+      <div
+        v-show="!loading"
+        class="prose dark:prose-invert font-serif px-4 py-8 mx-auto max-w-3xl"
+        v-html="markdown_it_element"
+      ></div>
+    </transition>
   </main>
 </template>
 
 <style scoped>
+@import 'highlight.js/styles/github-dark.css';
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -68,5 +107,14 @@ onMounted(() => {
 
 .animate-background {
   animation: background 10s ease-in-out infinite;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
