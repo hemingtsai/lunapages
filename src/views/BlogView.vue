@@ -1,23 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-
-interface Post {
-  title: string
-  time: {
-    year: number
-    month: number
-    day: number
-  }
-}
-
-interface PostWithDate extends Post {
-  date: string
-}
-
-function formatDate(time: Post['time']) {
-  const { year, month, day } = time
-  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-}
+import type { Post, PostWithDate } from '@/types/posts'
+import { formatDate } from '@/utils'
 
 const loading = ref(true)
 const posts = ref<PostWithDate[]>([])

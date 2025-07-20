@@ -1,48 +1,68 @@
+<!-- src/views/PostPage.vue -->
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import TypeIt from 'typeit'
-
+import { useRoute } from 'vue-router'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
+// Assume formatDate is defined to handle time object
+import { formatDate } from '@/utils'
+
+interface Post {
+  title: string
+  content: string
+  time: {
+    year: number
+    month: number
+    day: number
+  }
+}
+
+const route = useRoute()
 const type_it_element = ref<HTMLElement | null>(null)
 const content = ref<string>('')
 const loading = ref<boolean>(true)
-const website_title = import.meta.env.VITE_WEBSITE_TITLE
+const date = ref<string>('')
 const error = ref<string | null>(null)
 
-onMounted(() => {
-  // 打字效果
-  if (type_it_element.value) {
-    new TypeIt(type_it_element.value, {
-      strings: [`Welcome to ${website_title}`],
-      speed: 100,
-      loop: false,
-      breakLines: false,
-    }).go()
-  }
+onMounted(async () => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/posts/${route.params.id}`)
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+    const data: Post = await response.json()
 
-  fetch(`${import.meta.env.VITE_API_URL}/`)
-    .then((res) => res.json())
-    .then((data) => {
-      content.value = data
-      loading.value = false
-    })
-    .catch((err) => {
-      console.error('Failed to load post:', err)
-      error.value = '无法加载文章，请稍后再试。'
-    })
+    // TypeIt animation for title
+    if (type_it_element.value) {
+      new TypeIt(type_it_element.value, {
+        strings: data.title,
+        speed: 50,
+        waitUntilVisible: true,
+        afterComplete: () => {
+          type_it_element.value!.classList.add('opacity-100')
+        },
+      }).go()
+    }
+
+    content.value = data.content
+    date.value = formatDate(data.time)
+  } catch (err) {
+    console.error('Failed to load post:', err)
+    error.value = '无法加载文章，请稍后再试。'
+  } finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
   <main>
-    <!-- 顶部欢迎区 -->
+    <!-- Header section -->
     <div
       class="bg-gray-200 dark:bg-gray-800 dark:text-white text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background"
     >
       <div class="backdrop-blur-sm p-20">
-        <p class="text-6xl m-auto w-full opacity-0 animate-fade-in" ref="type_it_element"></p>
-        <p class="text-2xl mt-4 font-serif">时间存在的证明是风蚀的痕迹</p>
+        <h1 class="text-6xl m-auto w-full opacity-0 animate-fade-in" ref="type_it_element"></h1>
+        <p class="text-2xl mt-4 font-serif">{{ date }}</p>
       </div>
     </div>
 
@@ -63,8 +83,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import 'highlight.js/styles/github-dark.css';
-
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -92,14 +110,5 @@ onMounted(() => {
 
 .animate-background {
   animation: background 10s ease-in-out infinite;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
