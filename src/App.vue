@@ -8,7 +8,7 @@ const website_title = import.meta.env.VITE_WEBSITE_TITLE
     <div class="flex p-4 bg-gray-200 dark:bg-gray-800 dark:text-white shadow-2xl">
       <LinkButton to="/" class="mr-2">{{ website_title }}</LinkButton>
       <div class="flex-1"></div>
-      <LinkButton to="/blogs" class="mr-2">Blog</LinkButton>
+      <LinkButton to="/blog" class="mr-2">Blog</LinkButton>
     </div>
   </header>
 
