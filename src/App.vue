@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import LinkButton from './components/LinkButton.vue'
 const website_title = import.meta.env.VITE_WEBSITE_TITLE
+
+document.title = website_title
 </script>
 
 <template>
@@ -20,13 +22,8 @@ const website_title = import.meta.env.VITE_WEBSITE_TITLE
     </div>
 
     <div class="flex-1"></div>
-    <a
-      href="https://github.com/hemingtsai/lunapages"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-gray-700 dark:text-gray-200 hover:text-teal-500 underline transition-colors duration-200 font-medium decoration-dotted break-words"
-      >GitHub</a
-    >
+    <a href="https://github.com/hemingtsai/lunapages" target="_blank" rel="noopener noreferrer"
+      class="text-gray-700 dark:text-gray-200 hover:text-teal-500 underline transition-colors duration-200 font-medium decoration-dotted break-words">GitHub</a>
   </footer>
 </template>
 

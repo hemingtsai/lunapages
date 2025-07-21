@@ -7,10 +7,7 @@ const { to } = defineProps<{
 </script>
 
 <template>
-  <RouterLink
-    :to="to"
-    class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 rounded-sm p-3"
-  >
+  <RouterLink :to="to" class="hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200 rounded-sm p-3">
     <slot> </slot>
   </RouterLink>
 </template>
