@@ -4,19 +4,10 @@ import { onMounted, ref } from 'vue'
 import TypeIt from 'typeit'
 import { useRoute } from 'vue-router'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import type { Post } from '@/types/posts'
 
 // Assume formatDate is defined to handle time object
 import { formatDate } from '@/utils'
-
-interface Post {
-  title: string
-  content: string
-  time: {
-    year: number
-    month: number
-    day: number
-  }
-}
 
 const route = useRoute()
 const type_it_element = ref<HTMLElement | null>(null)
@@ -58,8 +49,7 @@ onMounted(async () => {
   <main>
     <!-- Header section -->
     <div
-      class="bg-gray-200 dark:bg-gray-800 dark:text-white text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background"
-    >
+      class="bg-gray-200 dark:bg-gray-800 dark:text-white text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background">
       <div class="backdrop-blur-sm p-20">
         <h1 class="text-6xl m-auto w-full opacity-0 animate-fade-in" ref="type_it_element"></h1>
         <p class="text-2xl mt-4 font-serif">{{ date }}</p>
@@ -87,6 +77,7 @@ onMounted(async () => {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -96,9 +87,11 @@ onMounted(async () => {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }

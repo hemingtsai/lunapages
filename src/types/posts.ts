@@ -1,4 +1,4 @@
-export interface Post {
+export interface PostListItem {
   title: string
   time: {
     year: number
@@ -7,6 +7,10 @@ export interface Post {
   }
 }
 
-export interface PostWithDate extends Post {
+export interface PostWithDate extends PostListItem {
   date: string
+}
+
+export interface Post extends PostListItem {
+  content: string
 }
