@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/special_pages/:id',
       name: 'special_pages',
-      component: () => SpecialPageView,
+      component: SpecialPageView,
     },
   ],
 })
