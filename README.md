@@ -1,39 +1,31 @@
-# lunapages
+<!-- Project LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/hemingtsai/personal_homepage">
+    <img src="images/logo.png" alt="Logo" width="160" height="160">
+  </a>
+  <h3 align="center">Lunapages</h3>
+</div>
 
-This template should help get you started developing with Vue 3 in Vite.
+> A simple blog system based Vue
 
-## Recommended IDE Setup
+### 🏠 [Homepage](https://hmtsai.cn)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### ✨ [Demo](https://hmtsai.cn)
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Install
 
 ```sh
 pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+## Author
 
-```sh
-pnpm dev
-```
+👤 **Hemingtsai**
 
-### Type-Check, Compile and Minify for Production
+- Website: https://hmtsai.cn
+- Github: [@hemingtsai](https://github.com/hemingtsai)
 
-```sh
-pnpm build
-```
+## Show your support
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+Give a ⭐️ if this project helped you!
