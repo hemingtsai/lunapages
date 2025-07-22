@@ -50,8 +50,9 @@ onMounted(async () => {
     <!-- Header section -->
     <div
       class="bg-gray-200 dark:bg-gray-800 dark:text-white text-center bg-[url(@/assets/Boochi_the_rock_1920x1080_PNG.png)] bg-center bg-cover animate-background">
-      <div class="backdrop-blur-sm p-20 backdrop-brightness-125 dark:backdrop-brightness-75">
-        <h1 class="text-6xl m-auto w-full opacity-0 animate-fade-in" ref="type_it_element"></h1>
+      <div class="backdrop-blur-sm backdrop-brightness-125 dark:backdrop-brightness-75 py-20 w-full">
+        <p class="text-4xl lg:text-6xl m-auto w-full opacity-0 animate-fade-in text-nowrap text-center"
+          ref="type_it_element"></p>
         <p class="text-2xl mt-4 font-serif">{{ date }}</p>
       </div>
     </div>
